@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pug Breeders Directory</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐾 Pug Breeders Directory</h1>
+            <p class="subtitle">Find reputable pug breeders near you</p>
+        </header>
+
+        <div class="search-section">
+            <input type="text" id="searchInput" placeholder="Search by name, location, or description..." class="search-input">
+            <button onclick="searchBreeders()" class="search-btn">Search</button>
+            <button onclick="clearSearch()" class="clear-btn">Clear</button>
+        </div>
+
+        <div class="actions">
+            <button onclick="showAddForm()" class="btn btn-primary">+ Add New Breeder</button>
+        </div>
+
+        <div id="breedersList" class="breeders-grid">
+            <!-- Breeders will be loaded here -->
+        </div>
+
+        <div id="loading" class="loading">Loading breeders...</div>
+        <div id="error" class="error"></div>
+    </div>
+
+    <!-- Add/Edit Breeder Modal -->
+    <div id="breederModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Add New Breeder</h2>
+            <form id="breederForm" onsubmit="saveBreeder(event)">
+                <input type="hidden" id="breederId">
+                
+                <div class="form-group">
+                    <label for="name">Breeder Name *</label>
+                    <input type="text" id="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" placeholder="City, State">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="email@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone" placeholder="(555) 123-4567">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="website">Website</label>
+                    <input type="url" id="website" placeholder="https://example.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="experience_years">Years of Experience</label>
+                    <input type="number" id="experience_years" min="0" placeholder="5">
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" rows="4" placeholder="Tell us about this breeder..."></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" onclick="closeModal()" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Breeder</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
