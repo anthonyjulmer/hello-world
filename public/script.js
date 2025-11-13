@@ -106,10 +106,18 @@ async function searchBreeders() {
     breedersList.innerHTML = '';
 
     try {
-        const response = await fetch(`${API_URL}/search/${encodeURIComponent(query)}`);
-        if (!response.ok) throw new Error('Search failed');
+        const searchUrl = `${API_URL}/search/${encodeURIComponent(query)}`;
+        console.log('Searching:', query, 'URL:', searchUrl); // Debug log
+        
+        const response = await fetch(searchUrl);
+        
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({ error: 'Search failed' }));
+            throw new Error(errorData.error || 'Search failed');
+        }
         
         const breeders = await response.json();
+        console.log('Search results:', breeders.length, 'breeders found'); // Debug log
         loading.style.display = 'none';
         
         if (breeders.length === 0) {
@@ -124,6 +132,7 @@ async function searchBreeders() {
 
         displayBreeders(breeders);
     } catch (err) {
+        console.error('Search error:', err); // Debug log
         loading.style.display = 'none';
         error.textContent = `Error: ${err.message}`;
         error.style.display = 'block';

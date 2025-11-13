@@ -131,17 +131,26 @@ app.delete('/api/breeders/:id', (req, res) => {
 
 // Search breeders
 app.get('/api/breeders/search/:query', (req, res) => {
-  const query = `%${req.params.query}%`;
+  // Decode the query parameter
+  const decodedQuery = decodeURIComponent(req.params.query);
+  const searchPattern = `%${decodedQuery}%`;
+  
+  console.log('Search query:', decodedQuery); // Debug log
+  
   db.all(
     `SELECT * FROM breeders 
-     WHERE name LIKE ? OR location LIKE ? OR description LIKE ?
+     WHERE name LIKE ? COLLATE NOCASE 
+        OR location LIKE ? COLLATE NOCASE 
+        OR description LIKE ? COLLATE NOCASE
      ORDER BY name`,
-    [query, query, query],
+    [searchPattern, searchPattern, searchPattern],
     (err, rows) => {
       if (err) {
+        console.error('Search error:', err);
         res.status(500).json({ error: err.message });
         return;
       }
+      console.log(`Search found ${rows.length} results`); // Debug log
       res.json(rows);
     }
   );
